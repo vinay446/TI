@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="ti">
 
     <head>
         <meta charset="utf-8">
@@ -28,6 +28,7 @@
         <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
         <link href="<c:url value="/resources/css/style-responsive.css"/>" rel="stylesheet">
 
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
         <!-- =======================================================
           Template Name: Dashio
           Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -36,38 +37,31 @@
         ======================================================= -->
     </head>
 
-    <body>
+    <body ng-controller="loginctrl as ctrl">
         <!-- **********************************************************************************************************************************************************
             MAIN CONTENT
             *********************************************************************************************************************************************************** -->
-        <div id="login-page">
+        <div id="login-page"  >
             <div class="container">
-                <form class="form-login" action="index.html">
-                    <h2 class="form-login-heading">sign in now</h2>
-                    <div class="login-wrap">
-                        <input type="text" class="form-control" placeholder="User ID" autofocus>
+                <form class="form-login" ng-submit="ctrl.submit()" name="loginform">
+                    <h2 class="form-login-heading">sign in </h2>
+                    <div class="login-wrap" >
+                        <b><p style="color: red" ng-model="message"></p></b>
+                        <input type="hidden" ng-model="contextpath" ng-init="contextpath='${pageContext.request.contextPath}'"/>
+                        <input type="email" class="form-control" ng-model="emailID" name="emailID" placeholder="Email ID" required autofocus>
                         <br>
-                        <input type="password" class="form-control" placeholder="Password">
+                        <span ng-show="loginform.$dirty && loginform.emailID.$invalid" style="color: red">Enter valid Email ID </span>
+                        <input type="password" class="form-control" ng-model="password" name="password" placeholder="Password" required>
                         <label class="checkbox">
-                            <input type="checkbox" value="remember-me"> Remember me
+                            <input type="checkbox" name="rememberme" ng-model="rememberme"  value="remember-me"> Remember me
                             <span class="pull-right">
-                                <a data-toggle="modal" href="login.html#myModal"> Forgot Password?</a>
+                                <a data-toggle="modal"  href="login.html#myModal"> Forgot Password?</a>
                             </span>
                         </label>
-                        <button class="btn btn-theme btn-block" href="index.html" type="submit"><i class="fa fa-lock"></i> SIGN IN</button>
-                        <hr>
-                        <div class="login-social-link centered">
-                            <p>or you can sign in via your social network</p>
-                            <button class="btn btn-facebook" type="submit"><i class="fa fa-facebook"></i> Facebook</button>
-                            <button class="btn btn-twitter" type="submit"><i class="fa fa-twitter"></i> Twitter</button>
-                        </div>
-                        <div class="registration">
-                            Don't have an account yet?<br/>
-                            <a class="" href="#">
-                                Create an account
-                            </a>
-                        </div>
+                        <button class="btn btn-theme btn-block"  type="submit" ng-disabled="loginform.$invalid" ><i class="fa fa-lock" ></i> SIGN IN</button>                                               
                     </div>
+                </form>
+                <form class="form-login">
                     <!-- Modal -->
                     <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
                         <div class="modal-dialog">
@@ -94,14 +88,7 @@
         <!-- js placed at the end of the document so the pages load faster -->
         <script src="<c:url value="/resources/lib/jquery/jquery.min.js"/>"></script>
         <script src="<c:url value="/resources/lib/bootstrap/js/bootstrap.min.js"/>"></script>
-        <!--BACKSTRETCH-->
-        <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
-        <script type="text/javascript" src="<c:url value="/resources/lib/jquery.backstretch.min.js"/>"></script>
-        <script>
-            $.backstretch("img/login-bg.jpg", {
-                speed: 500
-            });
-        </script>
+        <script src="<c:url value="/resources/js/loginctrl.js"/>"></script>                
     </body>
 
 </html>
