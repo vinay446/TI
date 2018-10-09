@@ -10,16 +10,27 @@ var app = angular.module('ti', []);
 app.controller('loginctrl', function ($scope, $http) {
     var self = this;
     self.submit = function () {
+        $scope.loading = true;
         var data = {
             emailID: $scope.emailID,
             password: $scope.password,
             message: null,
-            status: false
+            status: false,
+            rememberme: $scope.rememberme
         };
-        alert("DATA " + $scope.contextpath);
-        alert("Daa " + $scope.emailID + "< " + data.emailID);
-        $http.post($scope.contextpath+"/checklogin",JSON.stringify(data)).then(function (response){
-           alert(response.data); 
+        $http.post($scope.contextpath + "/checklogin", JSON.stringify(data)).then(function (response) {
+            var data = response.data;
+            var status = data.status;
+            var message = data.message;
+            $scope.message = message;
+            if (!status) {
+                $scope.loading = false;
+                return;
+            }
+            location.href = $scope.contextpath + "/home";
+        }, function (response) {
+            $scope.loading = false;
+            $scope.message= "ERROR in Connecting to server..";
         });
     };
 });

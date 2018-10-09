@@ -118,7 +118,38 @@ public class util {
         }
     }
 
+    /**
+     * Conversion of object to int
+     *
+     * @param obj
+     * @return
+     */
+    public static int parseInt(Object obj) {
+        try {
+            return (int) obj;
+        } catch (Exception e) {
+            log.fatal("Exception in Converting to int " + e.getMessage());
+            return -1;
+        }
+    }
+
+    /**
+     * Conversion of obj to long
+     *
+     * @param obj
+     * @return
+     */
+    public static long parseLong(Object obj) {
+        try {
+            return (long) obj;
+        } catch (Exception e) {
+            log.fatal("Exception in Converting to LONG " + e.getMessage());
+            return 0;
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println("Salting... ");
+        System.out.println(encryptString("vinay"));
     }
 }

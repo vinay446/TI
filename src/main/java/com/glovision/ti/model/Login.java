@@ -20,6 +20,8 @@ public class Login implements Serializable {
     private boolean status;
     
     private String message;
+    
+    private boolean rememberme;
 
     public String getEmailID() {
         return emailID;
@@ -53,5 +55,12 @@ public class Login implements Serializable {
         this.message = message;
     }
 
+    public boolean isRememberme() {
+        return rememberme;
+    }
+
+    public void setRememberme(boolean rememberme) {
+        this.rememberme = rememberme;
+    }
     
 }

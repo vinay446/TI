@@ -9,6 +9,25 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="ti">
 
+    <%
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Cache-Control", "no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+        String userID = (String) session.getAttribute("userID");      
+        if (userID != null) {
+            response.sendRedirect(request.getContextPath() + "/home");
+        }
+        Cookie[] cookies = request.getCookies();
+        for (Cookie c : cookies) {
+            String cookiename = c.getName();
+            if (cookiename.equals("emailID")) {
+                pageContext.setAttribute("emailID", c.getValue());
+            } else if (cookiename.equals("password")) {
+                pageContext.setAttribute("password", c.getValue());
+            }
+        }
+    %>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,13 +47,7 @@
         <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
         <link href="<c:url value="/resources/css/style-responsive.css"/>" rel="stylesheet">
 
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-        <!-- =======================================================
-          Template Name: Dashio
-          Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
-          Author: TemplateMag.com
-          License: https://templatemag.com/license/
-        ======================================================= -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>        
     </head>
 
     <body ng-controller="loginctrl as ctrl">
@@ -45,15 +58,17 @@
             <div class="container">
                 <form class="form-login" ng-submit="ctrl.submit()" name="loginform">
                     <h2 class="form-login-heading">sign in </h2>
+                    <div class="loader" ng-show="loading"></div>
                     <div class="login-wrap" >
-                        <b><p style="color: red" ng-model="message"></p></b>
-                        <input type="hidden" ng-model="contextpath" ng-init="contextpath='${pageContext.request.contextPath}'"/>
-                        <input type="email" class="form-control" ng-model="emailID" name="emailID" placeholder="Email ID" required autofocus>
+                        <b><p style="color: red" >${param.msg}</p></b>
+                        <b><p style="color: red" >{{message}}</p></b>
+                        <input type="hidden" ng-model="contextpath" ng-init="contextpath = '${pageContext.request.contextPath}'"/>
+                        <input type="email" class="form-control" ng-model="emailID" name="emailID" ng-init="emailID = '${emailID}'" placeholder="Email ID" required autofocus>
                         <br>
                         <span ng-show="loginform.$dirty && loginform.emailID.$invalid" style="color: red">Enter valid Email ID </span>
-                        <input type="password" class="form-control" ng-model="password" name="password" placeholder="Password" required>
+                        <input type="password" class="form-control" ng-model="password" name="password" ng-init="password = '${password}'" placeholder="Password" required>
                         <label class="checkbox">
-                            <input type="checkbox" name="rememberme" ng-model="rememberme"  value="remember-me"> Remember me
+                            <input type="checkbox" name="rememberme" ng-model="rememberme"  > Remember me
                             <span class="pull-right">
                                 <a data-toggle="modal"  href="login.html#myModal"> Forgot Password?</a>
                             </span>

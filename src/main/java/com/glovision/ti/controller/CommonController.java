@@ -5,18 +5,28 @@
  */
 package com.glovision.ti.controller;
 
+import com.glovision.ti.util.SessionUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
  * @author glodeveloper
  */
 @Controller
+@Scope("request")
 public class CommonController {
+    
+    @Autowired
+    SessionUtil sessionutil;
 
     private static Logger log = Logger.getLogger(CommonController.class);
 
@@ -45,8 +55,37 @@ public class CommonController {
     }
     
     
+    /**
+     * Mapping for login page
+     * @param model
+     * @return 
+     */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginpage(ModelMap model) {
         return "redirect:/";
+    }
+    
+    /**
+     * Mapping for home page
+     * @return 
+     */
+    @RequestMapping(value="/home",method=RequestMethod.GET)
+    public String homepage(ModelMap model){
+        model.addAttribute("sessionutil",sessionutil);
+        return "home";
+    }
+    
+    /**
+     * Session logout 
+     * @param request
+     * @param message
+     * @return 
+     */
+    @RequestMapping(value="/logout",method=RequestMethod.GET)
+    public String logout(HttpServletRequest request,@RequestParam("msg") String message){
+        HttpSession session = request.getSession();
+        session.invalidate();
+        sessionutil.invalidate();
+        return "redirect:/?msg="+message;
     }
 }
