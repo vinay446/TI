@@ -8,7 +8,7 @@
     <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-            <p class="centered"><a href="profile.html"><img src="http://localhost/images/${sessionUtil.getNotes()==null?'sysadmin.png':sessionUtil.getNotes()}" class="img-circle" width="80"></a></p>
+            <p class="centered"><a href="profile.html"><img src="http://localhost/images/${sessionUtil.getDisplayName()==null?'sysadmin.png':sessionUtil.getNotes()}" class="img-circle" width="80"></a></p>
             <h5 class="centered">${sessionUtil.getUserID().toUpperCase()}</h5>
             <li class="mt">
                 <a class="active" href="<c:url value="/home"/>">

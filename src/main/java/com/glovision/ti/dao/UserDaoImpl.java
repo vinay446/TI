@@ -7,7 +7,6 @@ package com.glovision.ti.dao;
 
 import com.glovision.ti.model.User;
 import com.glovision.ti.util.util;
-import java.util.Arrays;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;

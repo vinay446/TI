@@ -6,7 +6,9 @@
 package com.glovision.ti.controller;
 
 import com.glovision.ti.model.Login;
+import com.glovision.ti.model.SystemProps;
 import com.glovision.ti.model.User;
+import com.glovision.ti.service.SystemPropsService;
 import com.glovision.ti.service.UserService;
 import com.glovision.ti.util.SessionUtil;
 import com.glovision.ti.util.util;
@@ -39,7 +41,11 @@ public class UserController {
     private UserService service;
 
     @Autowired
+    private SystemPropsService props;
+
+    @Autowired
     private SessionUtil sessionutil;
+
     /**
      * Checks login parameters entered by user with database
      *
@@ -74,15 +80,18 @@ public class UserController {
                 savecookies(response, login.getEmailID(), login.getPassword());
             }
             HttpSession session = request.getSession();
+            SystemProps systemprops = props.findByPropID(user.getContactEmail() + "#map");
+            String mapused = systemprops.getValue()==null? "google":systemprops.getValue();
             session.setAttribute("userID", login.getEmailID());
             sessionutil.setAccountID(user.getAccountID());
             sessionutil.setRoleID(user.getRoleID());
             sessionutil.setUserID(user.getUserID());
-            sessionutil.setNotes(user.getNotes());
-            model.addAttribute("sessionutil",sessionutil);
+            sessionutil.setDisplayName(user.getDisplayName());
+            sessionutil.setPropertyValue(mapused);
+            model.addAttribute("sessionutil", sessionutil);
             login.setPassword(null);
             login.setStatus(true);
-            user.setLastLoginTime(DateUtil.getEpoch());            
+            user.setLastLoginTime(DateUtil.getEpoch());
             return login;
         }
         login.setPassword(null);

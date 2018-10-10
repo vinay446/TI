@@ -12,11 +12,11 @@
     response.setHeader("Cache-Control", "no-store");
     response.setHeader("Pragma", "no-cache");
     response.setDateHeader("Expires", 0);
-
+    
     String userID = (String) session.getAttribute("userID");
     if (userID == null) {
         response.sendRedirect(request.getContextPath() + "/logout?msg=Session Time out Please login again");
-    }        
+    }
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,7 +44,8 @@
         <link href="<c:url value="/resources/css/style-responsive.css"/>" rel="stylesheet">
         <script src="<c:url value="/resources/lib/chart-master/Chart.js"/>"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>        
-       
+        <!--Leaflet-->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"/>
     </head>
 
     <body>
@@ -66,14 +67,18 @@
                 *********************************************************************************************************************************************************** -->
             <!--main content start-->
             <section id="main-content">
-                <section class="wrapper site-min-height">
-                    <h3><i class="fa fa-angle-right"></i> Dashboard</h3>
+                <section class="wrapper">
                     <div class="row mt">
-                        <div class="col-lg-12">
-                            
+                        <div class="col-sm-12">
+                            <section class="panel">                                
+                                <div class="panel-body">
+                                    <div id="map"></div>
+                                </div>
+                            </section>
                         </div>
-                    </div>
+                    </div>                    
                 </section>
+                <!-- /wrapper -->
             </section>
             <!--main content end-->
             <!--footer start-->
@@ -92,7 +97,11 @@
         <script src="<c:url value="/resources/lib/common-scripts.js"/>"></script>
         <script type="text/javascript" src="<c:url value="/resources/lib/gritter/js/jquery.gritter.js"/>"></script>
         <script type="text/javascript" src="<c:url value="/resources/lib/gritter-conf.js"/>"></script>
-
+        <!--Leaf let-->
+        <%--        <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script> --%>
+        <script src="<c:url value="/resources/js/${SystemProps.findByPropID(userID+'#map')}.js"/>"></script>
+        <!--Google map-->
+        <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"async defer></script>        
     </body>
 
 </html>

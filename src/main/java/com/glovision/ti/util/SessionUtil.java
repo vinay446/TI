@@ -27,29 +27,25 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("session")
 public class SessionUtil {
-    
+
     String userID;
-    
+
     String accountID;
-        
+
     String roleID;
+
+    //Used to retrive image ID in user table displayName column
+    String displayName;
     
-    String notes;
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
-    public void invalidate(){
-        this.userID =null;
+    //Used to retrive property value from Systemprops table
+    String propertyValue;
+    
+    public void invalidate() {
+        this.userID = null;
         this.accountID = null;
         this.roleID = null;
     }
-    
+
     public String getUserID() {
         return userID;
     }
@@ -65,7 +61,6 @@ public class SessionUtil {
     public void setAccountID(String accountID) {
         this.accountID = accountID;
     }
-    
 
     public String getRoleID() {
         return roleID;
@@ -73,6 +68,22 @@ public class SessionUtil {
 
     public void setRoleID(String roleID) {
         this.roleID = roleID;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getPropertyValue() {
+        return propertyValue;
+    }
+
+    public void setPropertyValue(String propertyValue) {
+        this.propertyValue = propertyValue;
     }
     
     
